@@ -49,6 +49,9 @@ async def fetch_jobs(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
     results: list[RawJob] = []
 
     for job in jobs:
+        if not isinstance(job, dict):
+            logger.warning("Lever: unexpected non-dict job entry for %s: %r", slug, job)
+            continue
         title = job.get("text", "")
         if not any(kw in title.lower() for kw in _PM_TITLE_KEYWORDS):
             continue

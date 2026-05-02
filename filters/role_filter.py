@@ -163,13 +163,22 @@ def rule_based_prefilter(job: "RawJob") -> tuple[bool, str]:
             return False, f"location not in include list: {loc_lower}"
 
     # 5. Domain score gating
-    score = _domain_score(combined)
-    has_soft_exclude = any(kw in combined for kw in _SOFT_EXCLUDE_KEYWORDS)
+    # Score from title + first 300 chars of description only.
+    # Using the full description inflates scores: every AI company JD mentions "ai/ml/llm"
+    # even for generic PM roles, making the threshold meaningless.
+    title_score = _domain_score(title_lower)
+    desc_excerpt = desc_lower[:300]
+    score = _domain_score(f"{title_lower} {desc_excerpt}")
+
+    has_soft_exclude = any(kw in f"{title_lower} {desc_excerpt}" for kw in _SOFT_EXCLUDE_KEYWORDS)
     is_high_priority = job.company_priority == "high"
     is_strong_title = any(kw in title_lower for kw in _STRONG_TITLE_KEYWORDS)
 
     # Base threshold: 3; soft_exclude raises it by 1
+    # Jobs with zero title domain signal need a higher bar (title must hint at the domain)
     threshold = 4 if has_soft_exclude else 3
+    if title_score == 0:
+        threshold += 1  # no domain signal in title → require stronger description match
 
     if score >= threshold:
         return True, ""
@@ -177,4 +186,4 @@ def rule_based_prefilter(job: "RawJob") -> tuple[bool, str]:
     if score >= threshold - 1 and (is_high_priority or is_strong_title):
         return True, ""
 
-    return False, f"domain score too low: {score} (threshold {threshold})"
+    return False, f"domain score too low: {score} (title_score={title_score}, threshold={threshold})"

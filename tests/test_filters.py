@@ -327,19 +327,24 @@ class TestRuleBasedPrefilter:
         assert "domain score too low" in reason
 
     def test_high_priority_company_lowers_threshold(self):
-        # score=2 (one high signal "search"), threshold=3, but company_priority=high → passes
+        # title has "search" → title_score=2 > 0, threshold stays at 3
+        # description contributes no extra domain signal → total score=2
+        # score=2 < threshold=3, but high priority → threshold-1=2 → passes
         job = make_prefilter_job(
-            description="search product roadmap",
+            title="Senior Product Manager, Search",
+            description="product roadmap stakeholder management",
             company_priority="high",
         )
         ok, _ = rule_based_prefilter(job)
         assert ok is True
 
     def test_strong_title_lowers_threshold(self):
-        # score=2 ("ecommerce"=2), threshold=3, but strong title → passes
+        # title has "ecommerce" → title_score=2 > 0, threshold stays at 3
+        # description contributes no extra domain signal → total score=2
+        # score=2 < threshold=3, but strong title → threshold-1=2 → passes
         job = make_prefilter_job(
-            title="Staff Product Manager",
-            description="ecommerce product roadmap",
+            title="Staff Product Manager, Ecommerce",
+            description="product roadmap stakeholder management",
         )
         ok, _ = rule_based_prefilter(job)
         assert ok is True

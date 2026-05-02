@@ -165,11 +165,15 @@ def run_filter_pipeline(
     """
     location_fits: dict[str, str] = {}
     scoreable: list[RawJob] = []
-    all_filtered: list[RawJob] = []
+    hard_filtered_jobs: list[RawJob] = []
+    prefilter_skipped = 0
+    title_removed = 0
+    location_removed = 0
 
     for job in jobs:
         # 1. PM title
         if not is_pm_role(job.title):
+            title_removed += 1
             logger.debug("Title filter removed: %s", job.title)
             continue
 
@@ -177,14 +181,15 @@ def run_filter_pipeline(
         loc_fit = compute_location_fit(job.location, job.remote)
         location_fits[job.id] = loc_fit
         if not passes_location_filter(job.location, job.remote):
+            location_removed += 1
             logger.debug("Location filter removed: %s @ %s", job.title, job.location)
             continue
 
         # 3. Hard filter (description-level sponsorship/clearance blockers)
         job = apply_hard_filters(job)
-        all_filtered.append(job)
 
         if job.hard_filtered:
+            hard_filtered_jobs.append(job)
             logger.info(
                 "Hard filtered: %s @ %s (reason: %s)",
                 job.title, job.company, job.hard_filter_reason,
@@ -194,16 +199,19 @@ def run_filter_pipeline(
         # 4. Rule-based pre-filter: domain score gating before Claude API
         should_score, skip_reason = rule_based_prefilter(job)
         if not should_score:
-            logger.debug("Pre-filter skip: %s @ %s — %s", job.title, job.company, skip_reason)
+            prefilter_skipped += 1
+            logger.info("Pre-filter skip: %s @ %s — %s", job.title, job.company, skip_reason)
             continue
 
         scoreable.append(job)
 
+    pm_location_matches = len(scoreable) + len(hard_filtered_jobs) + prefilter_skipped
     logger.info(
-        "Filter pipeline: %d scoreable, %d hard-filtered (from %d PM+location matches)",
-        len(scoreable), len(all_filtered) - len(scoreable), len(all_filtered),
+        "Filter pipeline: %d raw → -%d title -%d location -%d hard-filter -%d pre-filter → %d scoreable",
+        len(jobs), title_removed, location_removed,
+        len(hard_filtered_jobs), prefilter_skipped, len(scoreable),
     )
-    return scoreable, all_filtered, location_fits
+    return scoreable, hard_filtered_jobs, location_fits
 
 
 # ── Publishing ────────────────────────────────────────────────────────────────
