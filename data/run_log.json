@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "run_at": "2026-05-02T07:21:01.323104+00:00",
+    "raw_jobs": 265,
+    "pm_location_matches": 15,
+    "hard_filtered": 0,
+    "scored": 15
+  }
+]
