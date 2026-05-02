@@ -114,6 +114,11 @@ async def scrape_all(
 
     jobs: list[RawJob] = []
     seen_ids: set[str] = set()
+    sem = asyncio.Semaphore(20)
+
+    async def _bounded(coro):
+        async with sem:
+            return await coro
 
     async with httpx.AsyncClient(
         headers={"User-Agent": "DailyApply/1.0 (job aggregator; contact via GitHub)"},
@@ -129,9 +134,9 @@ async def scrape_all(
                     continue
                 priority = slug_priority.get(slug.lower(), "low")
                 company_dict = _slug_company_dict(slug, platform, priority)
-                tasks.append(SCRAPER_MAP[platform](company_dict, client))
+                tasks.append(_bounded(SCRAPER_MAP[platform](company_dict, client)))
 
-        logger.info("Launching %d scraper tasks across %d platforms", len(tasks), len(ats_slugs))
+        logger.info("Launching %d scraper tasks (semaphore=20) across %d platforms", len(tasks), len(ats_slugs))
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
     for result in results:
