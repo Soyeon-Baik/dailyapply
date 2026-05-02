@@ -4,7 +4,7 @@ import pytest
 
 from filters.hard_filters import apply_hard_filters, detect_soft_sponsorship_concern
 from filters.location_filter import compute_location_fit, passes_location_filter
-from filters.role_filter import is_pm_role
+from filters.role_filter import is_pm_role, rule_based_prefilter
 from scrapers.common import RawJob
 from datetime import datetime, timezone
 
@@ -195,3 +195,161 @@ class TestLocationFilter:
 
     def test_passes_location_filter_mismatch(self):
         assert passes_location_filter("Dallas, TX", False) is False
+
+
+# ── rule_based_prefilter ──────────────────────────────────────────────────────
+
+def make_prefilter_job(
+    title="Senior Product Manager",
+    location="Seattle, WA",
+    remote=False,
+    description="search discovery recommendation ranking relevance ecommerce marketplace",
+    company_priority="medium",
+):
+    return RawJob(
+        id="pf_1",
+        platform="greenhouse",
+        company="TestCo",
+        company_priority=company_priority,
+        title=title,
+        location=location,
+        remote=remote,
+        url="https://example.com",
+        description_raw=description,
+        scraped_at=datetime.now(timezone.utc),
+    )
+
+
+class TestRuleBasedPrefilter:
+    # ── Title exclude ────────────────────────────────────────────────────────
+
+    def test_product_marketing_manager_skipped(self):
+        job = make_prefilter_job(title="Product Marketing Manager")
+        ok, reason = rule_based_prefilter(job)
+        assert ok is False
+        assert "title exclude" in reason
+
+    def test_technical_program_manager_skipped(self):
+        job = make_prefilter_job(title="Technical Program Manager")
+        ok, reason = rule_based_prefilter(job)
+        assert ok is False
+        assert "title exclude" in reason
+
+    def test_intern_skipped(self):
+        job = make_prefilter_job(title="Product Manager Intern")
+        ok, reason = rule_based_prefilter(job)
+        assert ok is False
+
+    def test_associate_pm_skipped(self):
+        job = make_prefilter_job(title="Associate Product Manager")
+        ok, reason = rule_based_prefilter(job)
+        assert ok is False
+
+    # ── Location exclude ─────────────────────────────────────────────────────
+
+    def test_india_location_skipped(self):
+        job = make_prefilter_job(location="Bangalore, India")
+        ok, reason = rule_based_prefilter(job)
+        assert ok is False
+        assert "location exclude" in reason
+
+    def test_remote_canada_skipped(self):
+        job = make_prefilter_job(location="Remote - Canada", remote=True)
+        ok, reason = rule_based_prefilter(job)
+        assert ok is False
+        assert "location exclude" in reason
+
+    def test_london_skipped(self):
+        job = make_prefilter_job(location="London, UK")
+        ok, reason = rule_based_prefilter(job)
+        assert ok is False
+
+    def test_non_target_us_city_non_remote_skipped(self):
+        job = make_prefilter_job(location="Dallas, TX", remote=False)
+        ok, reason = rule_based_prefilter(job)
+        assert ok is False
+        assert "location not in include list" in reason
+
+    def test_non_target_city_but_remote_flag_passes(self):
+        job = make_prefilter_job(location="Dallas, TX", remote=True)
+        ok, _ = rule_based_prefilter(job)
+        assert ok is True
+
+    # ── Hard exclude ─────────────────────────────────────────────────────────
+
+    def test_no_sponsorship_in_desc_skipped(self):
+        job = make_prefilter_job(description="no sponsorship available search discovery ranking")
+        ok, reason = rule_based_prefilter(job)
+        assert ok is False
+        assert "hard exclude" in reason
+
+    def test_security_clearance_in_desc_skipped(self):
+        job = make_prefilter_job(description="active clearance required search ecommerce")
+        ok, reason = rule_based_prefilter(job)
+        assert ok is False
+
+    # ── Domain score gating ──────────────────────────────────────────────────
+
+    def test_high_signal_domain_scores(self):
+        # "search" + "discovery" + "ranking" = 3 high-signal hits → score=6 ≥ threshold 3
+        job = make_prefilter_job(description="search discovery ranking")
+        ok, _ = rule_based_prefilter(job)
+        assert ok is True
+
+    def test_low_domain_score_skipped(self):
+        # No domain keywords → score=0
+        job = make_prefilter_job(description="manage stakeholders coordinate releases")
+        ok, reason = rule_based_prefilter(job)
+        assert ok is False
+        assert "domain score too low" in reason
+
+    def test_medium_signal_ai_ml_counts(self):
+        # "ai" + "ml" + "llm" = 3 medium-signal → score=3 ≥ threshold 3
+        job = make_prefilter_job(description="ai ml llm based product")
+        ok, _ = rule_based_prefilter(job)
+        assert ok is True
+
+    def test_soft_exclude_raises_threshold(self):
+        # "security" triggers soft_exclude → threshold=4
+        # score=3 (one high + one medium) would pass at threshold=3 but not 4
+        job = make_prefilter_job(
+            description="search discovery security compliance",  # score=4 (2+2), threshold=4
+        )
+        ok, _ = rule_based_prefilter(job)
+        # score=4 (search=2, discovery=2) with soft_exclude threshold=4 → passes
+        assert ok is True
+
+    def test_soft_exclude_low_score_skipped(self):
+        # "security" soft_exclude → threshold=4; score=2 (one high signal) → skip
+        job = make_prefilter_job(description="search security compliance")
+        ok, reason = rule_based_prefilter(job)
+        assert ok is False
+        assert "domain score too low" in reason
+
+    def test_high_priority_company_lowers_threshold(self):
+        # score=2 (one high signal "search"), threshold=3, but company_priority=high → passes
+        job = make_prefilter_job(
+            description="search product roadmap",
+            company_priority="high",
+        )
+        ok, _ = rule_based_prefilter(job)
+        assert ok is True
+
+    def test_strong_title_lowers_threshold(self):
+        # score=2 ("ecommerce"=2), threshold=3, but strong title → passes
+        job = make_prefilter_job(
+            title="Staff Product Manager",
+            description="ecommerce product roadmap",
+        )
+        ok, _ = rule_based_prefilter(job)
+        assert ok is True
+
+    def test_medium_priority_low_score_skipped(self):
+        # score=2, threshold=3, medium priority, no strong title → skip
+        job = make_prefilter_job(
+            title="Product Manager",
+            description="ecommerce product roadmap",
+            company_priority="medium",
+        )
+        ok, reason = rule_based_prefilter(job)
+        assert ok is False

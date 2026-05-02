@@ -22,7 +22,7 @@ from dotenv import load_dotenv
 
 from filters.hard_filters import apply_hard_filters
 from filters.location_filter import compute_location_fit, passes_location_filter
-from filters.role_filter import is_pm_role
+from filters.role_filter import is_pm_role, rule_based_prefilter
 from scrapers.common import RawJob
 from scrapers import greenhouse, lever, ashby, workable
 from scoring.scorer import score_all
@@ -180,17 +180,24 @@ def run_filter_pipeline(
             logger.debug("Location filter removed: %s @ %s", job.title, job.location)
             continue
 
-        # 3. Hard filter
+        # 3. Hard filter (description-level sponsorship/clearance blockers)
         job = apply_hard_filters(job)
         all_filtered.append(job)
 
-        if not job.hard_filtered:
-            scoreable.append(job)
-        else:
+        if job.hard_filtered:
             logger.info(
                 "Hard filtered: %s @ %s (reason: %s)",
                 job.title, job.company, job.hard_filter_reason,
             )
+            continue
+
+        # 4. Rule-based pre-filter: domain score gating before Claude API
+        should_score, skip_reason = rule_based_prefilter(job)
+        if not should_score:
+            logger.debug("Pre-filter skip: %s @ %s — %s", job.title, job.company, skip_reason)
+            continue
+
+        scoreable.append(job)
 
     logger.info(
         "Filter pipeline: %d scoreable, %d hard-filtered (from %d PM+location matches)",
