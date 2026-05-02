@@ -9,21 +9,21 @@ let filteredJobs = [];
 
 // ── Manual monitoring companies ───────────────────────────────────────────────
 const MANUAL_COMPANIES = [
-  { name: 'Microsoft',  url: 'https://jobs.careers.microsoft.com',                  domains: 'AI · Search · Cloud',          resetDays: 3 },
-  { name: 'Amazon',     url: 'https://www.amazon.jobs',                             domains: 'E-commerce · Search · Cloud',   resetDays: 3 },
-  { name: 'Google',     url: 'https://www.google.com/about/careers',                domains: 'Search · AI · Ads',             resetDays: 3 },
-  { name: 'Meta',       url: 'https://www.metacareers.com/jobs',                    domains: 'AI · Discovery · Social',       resetDays: 3 },
-  { name: 'TikTok',     url: 'https://lifeattiktok.com',                            domains: 'AI · Recommendation · Ecomm',   resetDays: 3 },
-  { name: 'DoorDash',   url: 'https://careersatdoordash.com',                       domains: 'Marketplace · Logistics',       resetDays: 5 },
-  { name: 'Uber',       url: 'https://www.uber.com/global/en/careers',              domains: 'Marketplace · Mobility',        resetDays: 5 },
-  { name: 'eBay',       url: 'https://jobs.ebayinc.com/us',                         domains: 'Marketplace · Search',          resetDays: 5 },
-  { name: 'Adobe',      url: 'https://careers.adobe.com',                           domains: 'Creative · AI · SaaS',          resetDays: 5 },
-  { name: 'Expedia',    url: 'https://expedia.wd5.myworkdayjobs.com/search',        domains: 'Travel · Search · Consumer',    resetDays: 5 },
-  { name: 'Zillow',     url: 'https://www.zillow.com/careers',                      domains: 'Real Estate · Search',          resetDays: 7 },
-  { name: 'CVS',        url: 'https://jobs.cvshealth.com',                          domains: 'Health · Consumer',             resetDays: 7 },
-  { name: 'Salesforce', url: 'https://www.salesforce.com/company/careers',          domains: 'CRM · AI · Enterprise',         resetDays: 7 },
-  { name: 'Shopify',    url: 'https://www.shopify.com/careers',                     domains: 'E-commerce · Platform',         resetDays: 7 },
-  { name: 'Cisco',      url: 'https://careers.cisco.com',                           domains: 'Networking · Security · Cloud', resetDays: 7 },
+  { name: 'Microsoft',  url: 'https://jobs.careers.microsoft.com',                  domains: 'AI · Search · Cloud',          resetDays: 1 },
+  { name: 'Amazon',     url: 'https://www.amazon.jobs',                             domains: 'E-commerce · Search · Cloud',   resetDays: 1 },
+  { name: 'Google',     url: 'https://www.google.com/about/careers',                domains: 'Search · AI · Ads',             resetDays: 1 },
+  { name: 'Meta',       url: 'https://www.metacareers.com/jobs',                    domains: 'AI · Discovery · Social',       resetDays: 1 },
+  { name: 'TikTok',     url: 'https://lifeattiktok.com',                            domains: 'AI · Recommendation · Ecomm',   resetDays: 1 },
+  { name: 'DoorDash',   url: 'https://careersatdoordash.com',                       domains: 'Marketplace · Logistics',       resetDays: 1 },
+  { name: 'Uber',       url: 'https://www.uber.com/global/en/careers',              domains: 'Marketplace · Mobility',        resetDays: 1 },
+  { name: 'eBay',       url: 'https://jobs.ebayinc.com/us',                         domains: 'Marketplace · Search',          resetDays: 1 },
+  { name: 'Adobe',      url: 'https://careers.adobe.com',                           domains: 'Creative · AI · SaaS',          resetDays: 1 },
+  { name: 'Expedia',    url: 'https://expedia.wd5.myworkdayjobs.com/search',        domains: 'Travel · Search · Consumer',    resetDays: 1 },
+  { name: 'Zillow',     url: 'https://www.zillow.com/careers',                      domains: 'Real Estate · Search',          resetDays: 1 },
+  { name: 'CVS',        url: 'https://jobs.cvshealth.com',                          domains: 'Health · Consumer',             resetDays: 1 },
+  { name: 'Salesforce', url: 'https://www.salesforce.com/company/careers',          domains: 'CRM · AI · Enterprise',         resetDays: 1 },
+  { name: 'Shopify',    url: 'https://www.shopify.com/careers',                     domains: 'E-commerce · Platform',         resetDays: 1 },
+  { name: 'Cisco',      url: 'https://careers.cisco.com',                           domains: 'Networking · Security · Cloud', resetDays: 1 },
 ];
 
 // ── State ─────────────────────────────────────────────────────────────────────
