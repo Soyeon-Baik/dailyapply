@@ -9,21 +9,21 @@ let filteredJobs = [];
 
 // ── Manual monitoring companies ───────────────────────────────────────────────
 const MANUAL_COMPANIES = [
-  { name: 'Microsoft',  url: 'https://jobs.careers.microsoft.com',                  domains: 'AI · Search · Cloud',          resetDays: 1 },
-  { name: 'Amazon',     url: 'https://www.amazon.jobs',                             domains: 'E-commerce · Search · Cloud',   resetDays: 1 },
-  { name: 'Google',     url: 'https://www.google.com/about/careers',                domains: 'Search · AI · Ads',             resetDays: 1 },
-  { name: 'Meta',       url: 'https://www.metacareers.com/jobs',                    domains: 'AI · Discovery · Social',       resetDays: 1 },
-  { name: 'TikTok',     url: 'https://lifeattiktok.com',                            domains: 'AI · Recommendation · Ecomm',   resetDays: 1 },
-  { name: 'DoorDash',   url: 'https://careersatdoordash.com',                       domains: 'Marketplace · Logistics',       resetDays: 1 },
-  { name: 'Uber',       url: 'https://www.uber.com/global/en/careers',              domains: 'Marketplace · Mobility',        resetDays: 1 },
-  { name: 'eBay',       url: 'https://jobs.ebayinc.com/us',                         domains: 'Marketplace · Search',          resetDays: 1 },
-  { name: 'Adobe',      url: 'https://careers.adobe.com',                           domains: 'Creative · AI · SaaS',          resetDays: 1 },
-  { name: 'Expedia',    url: 'https://expedia.wd5.myworkdayjobs.com/search',        domains: 'Travel · Search · Consumer',    resetDays: 1 },
-  { name: 'Zillow',     url: 'https://www.zillow.com/careers',                      domains: 'Real Estate · Search',          resetDays: 1 },
-  { name: 'CVS',        url: 'https://jobs.cvshealth.com',                          domains: 'Health · Consumer',             resetDays: 1 },
-  { name: 'Salesforce', url: 'https://www.salesforce.com/company/careers',          domains: 'CRM · AI · Enterprise',         resetDays: 1 },
-  { name: 'Shopify',    url: 'https://www.shopify.com/careers',                     domains: 'E-commerce · Platform',         resetDays: 1 },
-  { name: 'Cisco',      url: 'https://careers.cisco.com',                           domains: 'Networking · Security · Cloud', resetDays: 1 },
+  { name: 'Microsoft',  url: 'https://jobs.careers.microsoft.com',                  domains: 'AI · Search · Cloud'          },
+  { name: 'Amazon',     url: 'https://www.amazon.jobs',                             domains: 'E-commerce · Search · Cloud'  },
+  { name: 'Google',     url: 'https://www.google.com/about/careers',                domains: 'Search · AI · Ads'            },
+  { name: 'Meta',       url: 'https://www.metacareers.com/jobs',                    domains: 'AI · Discovery · Social'      },
+  { name: 'TikTok',     url: 'https://lifeattiktok.com',                            domains: 'AI · Recommendation · Ecomm'  },
+  { name: 'DoorDash',   url: 'https://careersatdoordash.com',                       domains: 'Marketplace · Logistics'      },
+  { name: 'Uber',       url: 'https://www.uber.com/global/en/careers',              domains: 'Marketplace · Mobility'       },
+  { name: 'eBay',       url: 'https://jobs.ebayinc.com/us',                         domains: 'Marketplace · Search'         },
+  { name: 'Adobe',      url: 'https://careers.adobe.com',                           domains: 'Creative · AI · SaaS'         },
+  { name: 'Expedia',    url: 'https://expedia.wd5.myworkdayjobs.com/search',        domains: 'Travel · Search · Consumer'   },
+  { name: 'Zillow',     url: 'https://www.zillow.com/careers',                      domains: 'Real Estate · Search'         },
+  { name: 'CVS',        url: 'https://jobs.cvshealth.com',                          domains: 'Health · Consumer'            },
+  { name: 'Salesforce', url: 'https://www.salesforce.com/company/careers',          domains: 'CRM · AI · Enterprise'        },
+  { name: 'Shopify',    url: 'https://www.shopify.com/careers',                     domains: 'E-commerce · Platform'        },
+  { name: 'Cisco',      url: 'https://careers.cisco.com',                           domains: 'Networking · Security · Cloud'},
 ];
 
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -55,6 +55,15 @@ function setStatus(jobId, status) {
 function getManualStore() {
   try { return JSON.parse(localStorage.getItem(MANUAL_KEY) || '{}'); }
   catch { return {}; }
+}
+function getManualStatus(name) {
+  const store = getManualStore();
+  const checked = store[name];
+  if (!checked) return null;
+  const checkedDate = new Date(checked).toLocaleDateString();
+  const todayDate   = new Date().toLocaleDateString();
+  if (checkedDate !== todayDate) return null;
+  return checked;
 }
 function setManualChecked(name) {
   const store = getManualStore();
@@ -289,21 +298,17 @@ function esc(str) {
 // ── Manual monitoring ─────────────────────────────────────────────────────────
 function renderManual() {
   const store = getManualStore();
-  const now   = Date.now();
 
   const html = MANUAL_COMPANIES.map(co => {
-    const checkedAt = store[co.name] ? new Date(store[co.name]) : null;
-    const msAgo     = checkedAt ? now - checkedAt.getTime() : Infinity;
-    const daysAgo   = msAgo / 86400000;
-    const expired   = daysAgo >= co.resetDays;
-    const isDone    = checkedAt && !expired;
+    const checkedIso = getManualStatus(co.name);
+    const isDone     = !!checkedIso;
 
     let lastText = 'Never checked';
-    if (checkedAt) {
-      if (daysAgo < 1)        lastText = 'Checked today';
-      else if (daysAgo < 2)   lastText = 'Checked yesterday';
-      else                    lastText = `Checked ${Math.floor(daysAgo)}d ago`;
-      if (expired)            lastText += ' — due again';
+    if (store[co.name]) {
+      const daysAgo = (Date.now() - new Date(store[co.name]).getTime()) / 86400000;
+      if (isDone)             lastText = 'Checked today';
+      else if (daysAgo < 2)  lastText = 'Checked yesterday — due again';
+      else                   lastText = `Checked ${Math.floor(daysAgo)}d ago — due again`;
     }
 
     return `
