@@ -32,6 +32,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Write resume.json from secret
+        env:
+          RESUME_JSON: ${{ secrets.RESUME_JSON }}
+        run: echo "$RESUME_JSON" > data/resume.json
+
       - name: Run unit tests
         run: pytest tests/ -v --tb=short -x
         # -x: stop on first failure — don't spend Claude API budget if filters are broken
