@@ -22,7 +22,7 @@ from dotenv import load_dotenv
 
 from filters.hard_filters import apply_hard_filters
 from filters.location_filter import compute_location_fit, passes_location_filter
-from filters.role_filter import is_pm_role, rule_based_prefilter
+from filters.role_filter import is_pm_role, should_score
 from scrapers.common import RawJob
 from scrapers import greenhouse, lever, ashby, workable
 from scoring.scorer import score_all
@@ -60,19 +60,22 @@ def build_company_lookup(companies: list[dict]) -> dict[str, dict]:
     return {c["name"]: c for c in companies}
 
 
-def build_slug_lookups(companies: list[dict]) -> tuple[set[str], dict[str, str]]:
-    """Derive blocked slugs and priority map from companies.json metadata.
+def build_slug_lookups(companies: list[dict]) -> tuple[set[str], dict[str, str], dict[str, str]]:
+    """Derive blocked slugs, priority map, and target_status map from companies.json.
 
     Returns:
-      blocked_slugs  — slugs to skip entirely (status: blocked)
-      slug_priority  — {slug: "high" | "medium" | "low"}
+      blocked_slugs      — slugs to skip entirely (status: blocked)
+      slug_priority      — {slug: "high" | "medium" | "low"}
+      slug_target_status — {slug: "primary" | "watchlist" | ...}
     """
     blocked_slugs: set[str] = set()
     slug_priority: dict[str, str] = {}
+    slug_target_status: dict[str, str] = {}
 
     for company in companies:
         is_blocked = company.get("status") == "blocked"
         priority = "high" if company.get("target_status") == "primary" else company.get("priority", "low")
+        t_status = company.get("target_status", "watchlist")
 
         for ats_entry in company.get("ats", []):
             slug = ats_entry.get("slug")
@@ -82,8 +85,9 @@ def build_slug_lookups(companies: list[dict]) -> tuple[set[str], dict[str, str]]
                 blocked_slugs.add(slug.lower())
             else:
                 slug_priority[slug.lower()] = priority
+                slug_target_status[slug.lower()] = t_status
 
-    return blocked_slugs, slug_priority
+    return blocked_slugs, slug_priority, slug_target_status
 
 
 def _slug_company_dict(slug: str, platform: str, priority: str) -> dict:
@@ -109,7 +113,7 @@ async def scrape_all(
     blocked_extra: set[str],
     ats_slugs: dict[str, list[str]],
 ) -> list[RawJob]:
-    blocked_slugs, slug_priority = build_slug_lookups(companies)
+    blocked_slugs, slug_priority, _slug_target_status = build_slug_lookups(companies)
     all_blocked = blocked_slugs | blocked_extra
 
     jobs: list[RawJob] = []
@@ -156,62 +160,36 @@ async def scrape_all(
 
 def run_filter_pipeline(
     jobs: list[RawJob],
-) -> tuple[list[RawJob], list[RawJob], dict[str, str]]:
+    slug_priority: dict[str, str],
+    slug_target_status: dict[str, str],
+) -> tuple[list[RawJob], dict[str, str]]:
     """
     Returns:
-      scoreable   — jobs that pass all filters
-      all_jobs    — full list with hard_filtered flags set (for logging)
+      scoreable     — jobs that pass all filters and should be sent to Claude
       location_fits — {job.id: location_fit_value}
     """
-    location_fits: dict[str, str] = {}
+    skipped: dict[str, int] = {
+        "hard_exclude": 0, "exclude_title": 0,
+        "location_exclude": 0, "location_not_us": 0, "low_domain_score": 0,
+    }
     scoreable: list[RawJob] = []
-    hard_filtered_jobs: list[RawJob] = []
-    prefilter_skipped = 0
-    title_removed = 0
-    location_removed = 0
+    location_fits: dict[str, str] = {}
 
     for job in jobs:
-        # 1. PM title
-        if not is_pm_role(job.title):
-            title_removed += 1
-            logger.debug("Title filter removed: %s", job.title)
-            continue
+        location_fits[job.id] = compute_location_fit(job.location, job.remote)
+        priority = slug_priority.get(job.company.lower(), job.company_priority)
+        t_status = slug_target_status.get(job.company.lower(), "watchlist")
+        ok, reason = should_score(job, company_priority=priority, target_status=t_status)
+        if ok:
+            scoreable.append(job)
+        else:
+            skipped[reason] = skipped.get(reason, 0) + 1
 
-        # 2. Location
-        loc_fit = compute_location_fit(job.location, job.remote)
-        location_fits[job.id] = loc_fit
-        if not passes_location_filter(job.location, job.remote):
-            location_removed += 1
-            logger.debug("Location filter removed: %s @ %s", job.title, job.location)
-            continue
-
-        # 3. Hard filter (description-level sponsorship/clearance blockers)
-        job = apply_hard_filters(job)
-
-        if job.hard_filtered:
-            hard_filtered_jobs.append(job)
-            logger.info(
-                "Hard filtered: %s @ %s (reason: %s)",
-                job.title, job.company, job.hard_filter_reason,
-            )
-            continue
-
-        # 4. Rule-based pre-filter: domain score gating before Claude API
-        should_score, skip_reason = rule_based_prefilter(job)
-        if not should_score:
-            prefilter_skipped += 1
-            logger.info("Pre-filter skip: %s @ %s — %s", job.title, job.company, skip_reason)
-            continue
-
-        scoreable.append(job)
-
-    pm_location_matches = len(scoreable) + len(hard_filtered_jobs) + prefilter_skipped
     logger.info(
-        "Filter pipeline: %d raw → -%d title -%d location -%d hard-filter -%d pre-filter → %d scoreable",
-        len(jobs), title_removed, location_removed,
-        len(hard_filtered_jobs), prefilter_skipped, len(scoreable),
+        "Filter pipeline: %d scoreable from %d raw — skipped: %s",
+        len(scoreable), len(jobs), skipped,
     )
-    return scoreable, hard_filtered_jobs, location_fits
+    return scoreable, location_fits
 
 
 # ── Publishing ────────────────────────────────────────────────────────────────
@@ -295,16 +273,17 @@ async def main():
 
     # 2. Filter
     logger.info("=== STEP 2: Filtering ===")
-    scoreable, all_filtered, location_fits = run_filter_pipeline(raw_jobs)
+    _blocked, slug_priority, slug_target_status = build_slug_lookups(companies)
+    scoreable, location_fits = run_filter_pipeline(raw_jobs, slug_priority, slug_target_status)
 
     if not scoreable:
         logger.info("No scoreable jobs found. Exiting without Claude API calls.")
-        write_run_log(len(raw_jobs), len(all_filtered), len(all_filtered) - len(scoreable), 0)
+        write_run_log(len(raw_jobs), 0, 0, 0)
         return
 
     # 3. Score
     logger.info("=== STEP 3: Scoring %d jobs with Claude ===", len(scoreable))
-    scored = score_all(scoreable, resume, company_lookup, location_fits)
+    scored = await score_all(scoreable, resume, company_lookup, location_fits)
 
     # 4. Publish
     logger.info("=== STEP 4: Publishing ===")
@@ -312,8 +291,7 @@ async def main():
     publish(scored, DOCS / "jobs.json")
 
     # 5. Run log
-    hard_filtered_count = len(all_filtered) - len(scoreable)
-    write_run_log(len(raw_jobs), len(all_filtered), hard_filtered_count, len(scored))
+    write_run_log(len(raw_jobs), len(scoreable), 0, len(scored))
 
     logger.info("=== DONE: %d jobs scored and published ===", len(scored))
 

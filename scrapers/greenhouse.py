@@ -15,11 +15,15 @@ logger = logging.getLogger(__name__)
 
 BASE_URL = "https://boards-api.greenhouse.io/v1/boards/{slug}/jobs"
 
-# Broad pre-filter: skip jobs that clearly aren't PM roles before building RawJob objects.
-# is_pm_role() in filters/ does the precise check later; this just cuts noise at scale.
-_PM_TITLE_KEYWORDS = [
-    "product manager", "product lead", "head of product",
-    "vp of product", "director of product", "group product",
+_PM_INCLUDE_TITLE = [
+    "product manager", "sr. product manager", "sr product manager",
+    "senior product manager", "staff product manager",
+    "principal product manager", "lead product manager",
+    "group product manager", "product lead",
+]
+_PM_EXCLUDE_TITLE = [
+    "head of product", "vp of product", "director of product",
+    "director, product", "vp, product", "vice president product",
 ]
 
 
@@ -51,7 +55,10 @@ async def fetch_jobs(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
             logger.warning("Greenhouse: unexpected non-dict job entry for %s: %r", slug, job)
             continue
         title = job.get("title", "")
-        if not any(kw in title.lower() for kw in _PM_TITLE_KEYWORDS):
+        title_lower = title.lower()
+        if not any(kw in title_lower for kw in _PM_INCLUDE_TITLE):
+            continue
+        if any(kw in title_lower for kw in _PM_EXCLUDE_TITLE):
             continue
         job_id = str(job.get("id", ""))
         location_data = job.get("location", {})

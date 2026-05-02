@@ -53,3 +53,4 @@ class ScoredJob(BaseModel):
     # Dashboard metadata
     run_id: str
     status: str = "new"              # overridden by localStorage on client
+    scoring_status: str = "scored"   # "scored" | "error" | "skip"

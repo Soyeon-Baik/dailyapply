@@ -14,7 +14,7 @@ def test_build_slug_lookups_blocked_slug():
             "ats": [{"type": "greenhouse", "slug": "disney"}],
         }
     ]
-    blocked, priority = build_slug_lookups(companies)
+    blocked, priority, _ = build_slug_lookups(companies)
     assert "disney" in blocked
     assert "disney" not in priority
 
@@ -28,7 +28,7 @@ def test_build_slug_lookups_high_priority_via_target_status():
             "ats": [{"type": "greenhouse", "slug": "anthropic"}],
         }
     ]
-    blocked, priority = build_slug_lookups(companies)
+    blocked, priority, _ = build_slug_lookups(companies)
     assert "anthropic" not in blocked
     assert priority["anthropic"] == "high"
 
@@ -42,19 +42,20 @@ def test_build_slug_lookups_medium_priority():
             "ats": [{"type": "ashby", "slug": "notion"}],
         }
     ]
-    blocked, priority = build_slug_lookups(companies)
+    blocked, priority, _ = build_slug_lookups(companies)
     assert priority["notion"] == "medium"
 
 
 def test_build_slug_lookups_default_low_for_unknown_slug():
-    blocked, priority = build_slug_lookups([])
+    blocked, priority, _ = build_slug_lookups([])
     assert priority.get("unknownco", "low") == "low"
 
 
 def test_build_slug_lookups_empty_companies():
-    blocked, priority = build_slug_lookups([])
+    blocked, priority, t_status = build_slug_lookups([])
     assert blocked == set()
     assert priority == {}
+    assert t_status == {}
 
 
 def test_build_slug_lookups_multiple_ats_entries():
@@ -69,7 +70,7 @@ def test_build_slug_lookups_multiple_ats_entries():
             ],
         }
     ]
-    blocked, priority = build_slug_lookups(companies)
+    blocked, priority, _ = build_slug_lookups(companies)
     assert priority["figma"] == "high"
     assert priority["figma-lever"] == "high"
 
@@ -82,7 +83,7 @@ def test_build_slug_lookups_blocked_skips_slug_without_slug_key():
             "ats": [{"type": "greenhouse"}],  # no slug key
         }
     ]
-    blocked, priority = build_slug_lookups(companies)
+    blocked, priority, _ = build_slug_lookups(companies)
     assert len(blocked) == 0
 
 
@@ -94,7 +95,7 @@ def test_build_slug_lookups_slug_normalized_lowercase():
             "ats": [{"type": "greenhouse", "slug": "ACME"}],
         }
     ]
-    blocked, _ = build_slug_lookups(companies)
+    blocked, _, _t = build_slug_lookups(companies)
     assert "acme" in blocked
 
 

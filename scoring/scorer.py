@@ -1,13 +1,13 @@
 """Claude API scorer using tool_use for structured output.
 
-Scores jobs sequentially (not parallel) to keep the prompt cache warm.
-The cached system prompt has a 5-min TTL — parallel calls risk cache misses
-on first call in a new window, so sequential with a small sleep is preferred.
+Scores jobs in parallel (semaphore 5) using AsyncAnthropic.
 """
 
 import asyncio
+import json
 import logging
 import os
+import re
 from datetime import datetime, timezone
 
 import anthropic
@@ -117,7 +117,20 @@ SCORE_TOOL = {
 }
 
 
-def score_job(
+def parse_json_response(content: str) -> dict:
+    content = content.strip()
+    if content.startswith("```"):
+        content = re.sub(r"```json|```", "", content).strip()
+    try:
+        return json.loads(content)
+    except json.JSONDecodeError:
+        start, end = content.find("{"), content.rfind("}")
+        if start != -1 and end != -1:
+            return json.loads(content[start:end + 1])
+        raise
+
+
+async def score_job(
     job: RawJob,
     resume: dict,
     company_note: str,
@@ -125,12 +138,12 @@ def score_job(
     location_fit: str,
 ) -> ScoredJob:
     """Score a single job with Claude. Returns a ScoredJob."""
-    client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+    client = anthropic.AsyncAnthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 
     system = build_system_prompt(resume)
     user_message = build_user_message(job, company_note)
 
-    response = client.messages.create(
+    response = await client.messages.create(
         model=MODEL,
         max_tokens=MAX_TOKENS,
         system=system,
@@ -139,7 +152,6 @@ def score_job(
         messages=[{"role": "user", "content": user_message}],
     )
 
-    # tool_choice forces the first content block to be tool_use
     tool_block = response.content[0]
     if tool_block.type != "tool_use":
         raise ValueError(f"Expected tool_use block, got: {tool_block.type}")
@@ -147,8 +159,12 @@ def score_job(
     tool_input = tool_block.input
     breakdown = ScoreBreakdown(**tool_input["score_breakdown"])
 
+    company_slug = re.sub(r"[^a-z0-9]", "-", job.company.lower())
+    source_id = job.id.split("_")[-1] if "_" in job.id else job.id
+    job_id = f"{job.platform}:{company_slug}:{source_id}"
+
     return ScoredJob(
-        id=job.id,
+        id=job_id,
         platform=job.platform,
         company=job.company,
         company_priority=job.company_priority,
@@ -174,36 +190,38 @@ def score_job(
         top_bullets=tool_input["top_bullets"],
         gap_handling=tool_input.get("gap_handling"),
         run_id=run_id,
+        scoring_status="scored",
     )
 
 
-def score_all(
+async def score_all(
     jobs: list[RawJob],
     resume: dict,
     companies_lookup: dict,
     location_fits: dict,
 ) -> list[ScoredJob]:
-    """Score all jobs sequentially to preserve prompt cache hit rate."""
+    """Score all jobs in parallel with semaphore=5."""
+    sem = asyncio.Semaphore(5)
     run_id = datetime.now(timezone.utc).isoformat()
-    results: list[ScoredJob] = []
 
-    for i, job in enumerate(jobs):
-        company_note = companies_lookup.get(job.company, {}).get("note", "")
-        loc_fit = location_fits.get(job.id, "mismatch")
-        try:
-            scored = score_job(job, resume, company_note, run_id, loc_fit)
-            results.append(scored)
+    async def _bounded(job: RawJob) -> ScoredJob:
+        async with sem:
+            company_note = companies_lookup.get(job.company, {}).get("note", "")
+            loc_fit = location_fits.get(job.id, "mismatch")
+            return await score_job(job, resume, company_note, run_id, loc_fit)
+
+    results = await asyncio.gather(*[_bounded(j) for j in jobs], return_exceptions=True)
+
+    scored: list[ScoredJob] = []
+    for i, r in enumerate(results):
+        if isinstance(r, Exception):
+            logger.error("score_job failed for %s @ %s: %s", jobs[i].title, jobs[i].company, r)
+        else:
             logger.info(
                 "[%d/%d] Scored %s @ %s → %d (%s)",
-                i + 1, len(jobs), job.title, job.company,
-                scored.fit_score, scored.recommendation,
+                len(scored) + 1, len(jobs), r.title, r.company,
+                r.fit_score, r.recommendation,
             )
-        except Exception as e:
-            logger.error("Failed to score %s @ %s: %s", job.title, job.company, e)
+            scored.append(r)
 
-        # Small pause to be a polite API citizen (not for rate limiting — sequential calls are fine)
-        if i < len(jobs) - 1:
-            import time
-            time.sleep(0.3)
-
-    return results
+    return scored

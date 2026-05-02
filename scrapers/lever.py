@@ -16,9 +16,15 @@ logger = logging.getLogger(__name__)
 
 BASE_URL = "https://api.lever.co/v0/postings/{slug}"
 
-_PM_TITLE_KEYWORDS = [
-    "product manager", "product lead", "head of product",
-    "vp of product", "director of product", "group product",
+_PM_INCLUDE_TITLE = [
+    "product manager", "sr. product manager", "sr product manager",
+    "senior product manager", "staff product manager",
+    "principal product manager", "lead product manager",
+    "group product manager", "product lead",
+]
+_PM_EXCLUDE_TITLE = [
+    "head of product", "vp of product", "director of product",
+    "director, product", "vp, product", "vice president product",
 ]
 
 
@@ -53,7 +59,10 @@ async def fetch_jobs(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
             logger.warning("Lever: unexpected non-dict job entry for %s: %r", slug, job)
             continue
         title = job.get("text", "")
-        if not any(kw in title.lower() for kw in _PM_TITLE_KEYWORDS):
+        title_lower = title.lower()
+        if not any(kw in title_lower for kw in _PM_INCLUDE_TITLE):
+            continue
+        if any(kw in title_lower for kw in _PM_EXCLUDE_TITLE):
             continue
         job_id = job.get("id", "")
         categories = job.get("categories", {})

@@ -1,9 +1,9 @@
 {
   "greenhouse": [
     "anthropic", "airbnb", "pinterest", "instacart", "lyft",
-    "faire", "mercari", "reddit", "brex", "chime",
-    "affirm", "nerdwallet", "betterment", "wealthfront", "robinhood",
-    "plaid", "coinbase", "stripe", "gopuff", "shipt",
+    "faire", "mercari", "reddit",
+    "nerdwallet", "wealthfront",
+    "plaid", "stripe", "gopuff", "shipt",
     "chewy", "poshmark", "vroom", "carvana", "opendoor",
     "compass", "peloton", "calm", "headspace", "duolingo",
     "coursera", "udemy", "masterclass", "airtable", "asana",
