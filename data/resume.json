@@ -1,0 +1,231 @@
+{
+  "name": "Riley Baik",
+  "headline": "Senior Product Manager | AI/ML · Search & Discovery · E-commerce",
+  "location": "Bellevue, WA",
+  "years_of_experience": 9,
+
+  "visa_status": {
+    "current_status": "H1B",
+    "needs": "H1B transfer / employer sponsorship support",
+    "hard_filter": ["no sponsorship", "US citizen only", "active clearance required"]
+  },
+
+  "target_archetypes": ["AI Search", "E-commerce Discovery", "Consumer AI", "Personalization", "Growth"],
+
+  "target_seniority": {
+    "primary": ["Senior Product Manager", "Product Manager II", "Product Manager III"],
+    "stretch": ["Lead Product Manager", "Staff Product Manager"],
+    "avoid": ["Associate Product Manager", "Director", "Group Product Manager", "Principal Product Manager"]
+  },
+
+  "preferred_locations": ["Seattle", "Bellevue", "Remote US", "San Francisco", "CA","NY", "NJ"],
+
+  "summary": "AI Product Manager (9+ years) specializing in search, discovery, and intelligent product experiences. Track record of shipping AI-powered systems — from hybrid search and ranking to conversational AI and LLM-driven pipelines — that drive measurable impact at scale.",
+
+  "skills": {
+    "core": [
+      "Hybrid Search", "Search Relevance", "E-commerce Discovery",
+      "Personalization", "Recommendation Systems",
+      "A/B Testing", "Experimentation",
+      "Product Strategy", "Roadmap Planning", "Cross-functional Leadership",
+      "Stakeholder Management", "Executive Alignment"
+    ],
+    "ai_ml": [
+      "LLM Product Evaluation", "Model Evaluation", "Query Understanding",
+      "Semantic Search", "NLP Product Applications", "Conversational AI",
+      "Prompt Engineering", "AEO", "Structured Data"
+    ],
+    "tools": [
+      "SQL", "BigQuery", "Google Analytics", "Adobe Analytics",
+      "Tableau", "Power BI"
+    ],
+    "use_with_caution": [
+      "Fine-tuning", "Python", "Statistical Modeling", "Predictive Modeling",
+      "Multi-agent Workflow", "API Design"
+    ]
+  },
+
+  "experience": [
+    {
+      "company": "Samsung Electronics (Samsung.com)",
+      "title": "Product Manager III – Product Discovery",
+      "location": "Bellevue, WA",
+      "dates": "2023-05 – Present",
+      "domain": "AI Search",
+      "bullets": [
+        "Led hybrid AI-powered search experience launch across 3 international marketplaces, partnering with AI researchers to optimize user engagement through A/B testing, resulting in 20% CTR increase and executive approval for global expansion",
+        "Partnered with ML engineers to improve search ranking using behavioral signals and catalog metadata, defining relevance metrics and experiment success criteria; improved precision@3 by 30% and 1st-result CTR by 45%",
+        "Defined success metrics for search engagement and led instrumentation strategy in partnership with engineering and analytics teams. Leveraged behavioral insights to iterate search experiences, increasing search success rate by 15% and CTR by 25% QoQ",
+        "Defined requirements and led delivery of an automated AEO strategy and pipeline to extract and structure catalog metadata (product attributes, inventory, pricing) from PIM into schema markup, boosting AI agent traffic by 8x and increasing conversion by 40% within 12 weeks",
+        "Led end-to-end delivery of on-site conversational AI chat experience, from scope definition and conversation flow design to production launch in partnership with marketing, UX, and engineering to support product discovery and comparison for users",
+        "Developed a personalized recommendation API with data scientists using product, browsing, and purchase data, leveraged it to launch an add-ons page with UX designers and engineers, boosting AOV by 15%",
+        "Streamlined product discovery funnels by launching category-specific finder experiences and optimizing taxonomy. Increased PDP view rate per visit by 45% (from 30% to 45%) and reduced bounce rate by 50% via improved assortment visibility and guided shopping flows",
+        "Optimized product detail page (PDP) components for a major product launch by partnering with merchandising, pricing, and content teams, enhancing Buy Box strategy, offer visibility, and content quality to improve customer experience",
+        "Defined the on-site search product vision and roadmap for Samsung.com, partnering with UX, engineering, and data science teams to enhance back-end logic and front-end UX/UI. Planned and led a phased rollout with A/B testing across key funnels, increasing web navigation CSAT score (NPS) by 20% QoQ and improving engagement for 10M+ monthly users"
+      ],
+      "keywords": [
+        "hybrid search", "AI search", "search ranking", "search relevance",
+        "precision@3", "search success rate", "search instrumentation",
+        "behavioral signals", "behavioral insights", "A/B testing",
+        "conversational AI", "conversation flow", "product discovery",
+        "recommendation API", "personalization", "AOV",
+        "AEO", "schema markup", "catalog metadata", "PIM", "data pipeline",
+        "structured data", "AI agent traffic", "automation",
+        "finder experience", "taxonomy", "PDP view rate", "bounce rate",
+        "PDP optimization", "Buy Box", "offer visibility", "content quality",
+        "NPS", "CTR", "QoQ", "10M+ users", "international",
+        "ML engineers", "data scientists", "roadmap",
+        "stakeholder management", "executive alignment"
+      ]
+    },
+    {
+      "company": "Amazon.com",
+      "title": "Senior Product Manager – Product Listing Tool",
+      "location": "Seattle, WA",
+      "dates": "2022-06 – 2023-04",
+      "domain": "B2B Platform",
+      "bullets": [
+        "Automated product listing workflows for 2M+ B2B sellers by launching an ML-driven auto-fill system, reducing manual listing time by 80%. Partnered with science and engineering to design multi-modal classification and data-mapping pipelines that translated seller inputs into structured catalog templates across 20+ high-impact categories",
+        "Optimized vendor onboarding process by incorporating Brand Protection registration into the core workflow, removing separate sign-up steps and proactively capturing brand ownership data. Increased overall Ease-of-Use (EoU) score by 380bps and reduced onboarding completion time by 2 days, while expanding protection coverage for B2B sellers through authoritative brand data",
+        "Saved $1.4M in operational cost by enhancing self-serve workflow for B2B sellers that reduced manual contacts with support agents. Identified key issues in listing experience based on 10+ interviews and 300+ surveys from B2B sellers and partnered with 5 dependent teams to develop solution to easily correct sellers' brand and catalog information"
+      ],
+      "keywords": [
+        "B2B", "multi-modal ML", "classification", "data mapping", "catalog",
+        "listing automation", "seller tools", "onboarding", "brand protection",
+        "ease of use", "2M+ sellers", "20+ categories", "auto-fill", "pipeline",
+        "self-serve", "cost savings", "$1.4M", "user research", "interviews", "surveys",
+        "cross-functional", "5 teams"
+      ]
+    },
+    {
+      "company": "Kolonmall.com (Kolon Industries)",
+      "title": "Product Manager II – Growth",
+      "location": "Remote",
+      "dates": "2018-04 – 2021-06",
+      "domain": "E-commerce Growth",
+      "bullets": [
+        "Built ML-driven personalized recommendation systems across the conversion funnel (PDP, Cart, Checkout), increasing AOV by 25% ($148 to $185) through model optimization and iterative A/B testing with data scientist, engineers, and UX designers",
+        "Launched ML-powered virtual try-on feature with size recommendation, achieving 70% adoption rate with 40% reduction in return rate MoM by leading the end-to-end product lifecycle from discovery, prototyping, and iteration to GTM execution",
+        "Optimized product detail page components (variation, pricing, offers, description, etc.) and their placement through A/B testing in partnership with UX designer to improve engagement, increasing conversion rates by 15% (1.12% → 1.29%)",
+        "Led initiative to build self-service return management system with customer support, engineering, logistics, operations, and finance teams to provide real-time visibility into return and refund status, reducing return-related support calls by 60%",
+        "Spearheaded end-to-end launch of live commerce feature on mobile app, growing audience 250% YoY. Defined user stories and requirements based on user interviews and market research, conducted A/B testing for usability, and iterated on feature enhancements for streamlined shopping experience during live commerce shows, contributing to 300% mobile sales growth YoY",
+        "Led cross-functional team to design a unified customer data platform (CDP), integrating offline (POS, SAP CRM) and online behavioral data to create a single customer view in BigQuery. Defined requirements for analytics tool integration (Google Analytics, Looker, Tableau), driving a 45% increase in marketing campaign ROI",
+        "Restructured new customer benefit package and revamped onboarding workflow, increasing first purchase rate by 30%. Designed segmentation-driven CRM marketing program and boosted 1-year retention by 7% and re-purchase rate by 15%"
+      ],
+      "keywords": [
+        "recommendation systems", "conversion funnel", "AOV", "A/B testing",
+        "virtual try-on", "size recommendation", "GTM", "PDP optimization",
+        "conversion rate", "personalization", "ML-driven", "1M users", "$2B GMV",
+        "self-service", "return management", "cross-functional", "real-time visibility",
+        "live commerce", "mobile app", "250% YoY", "300% mobile sales",
+        "CDP", "customer data platform", "BigQuery", "POS", "SAP CRM",
+        "Google Analytics", "Looker", "Tableau", "marketing ROI",
+        "onboarding", "retention", "segmentation", "CRM", "re-purchase rate"
+      ]
+    },
+    {
+      "company": "Kolonmall.com (Kolon Industries)",
+      "title": "Product Manager I – Marketing Technology",
+      "location": "Remote",
+      "dates": "2016-01 – 2018-04",
+      "domain": "Marketing Technology",
+      "bullets": [
+        "Built CRM personalization system with segmentation, user journey mapping, dynamic messaging, and channel optimization, increasing engagement CTR by 50% YoY (from 8 to 12%) across email, in-app, and push",
+        "Developed A/B testing and automation toolset to optimize storefront content merchandising by automating top-performing banner selection based on daily metrics (sessions, CTR, sales), driving 30% GMV growth YoY ($2.5M)",
+        "Delivered unified Customer Data Platform (CDP) by integrating Google Analytics and Tableau, increasing marketing ROI by 45% and reducing planning time by 60% from 10 to 4 days with automated reporting"
+      ],
+      "keywords": [
+        "CRM", "personalization", "segmentation", "user journey", "CDP",
+        "customer data platform", "marketing automation", "GMV growth",
+        "email marketing", "push notification", "in-app", "Tableau", "Google Analytics"
+      ]
+    }
+  ],
+
+  "education": [
+    {
+      "degree": "Master of Science, Business Analytics and Information Management",
+      "school": "Purdue University",
+      "year": "2022"
+    },
+    {
+      "degree": "Bachelor of Science, Business Administration (Cum Laude)",
+      "school": "Chung-Ang University",
+      "year": "2016"
+    }
+  ],
+
+  "key_achievements": [
+    "Launched hybrid AI search across 3 international markets → CTR +20%",
+    "Search ranking optimization → precision@3 +30%, 1st-result CTR +45%",
+    "AEO pipeline → AI agent traffic 8x, conversion +40% in 12 weeks",
+    "Recommendation system → AOV +25% ($148 to $185) on $2B+ GMV platform",
+    "Virtual try-on → 70% adoption, return rate -40%",
+    "Samsung.com search → 10M+ monthly users, NPS +20% QoQ",
+    "Amazon B2B listing tool → listing time -80% for 2M+ sellers, $1.4M cost savings"
+  ],
+
+  "archetype_strengths": {
+    "primary": ["AI Search PM", "E-commerce Discovery PM"],
+    "secondary": ["Consumer AI PM", "Personalization PM", "Growth PM"],
+    "conditional_fit": ["B2B Platform PM", "Seller Tools PM", "Catalog Platform PM", "Internal AI Workflow PM", "Data Product PM"],
+    "weak_fit": ["Security PM", "Infrastructure PM", "Healthcare Claims PM", "Compliance-heavy PM", "Ads Auction PM", "Hardware PM"]
+  },
+
+  "avoid_criteria": {
+    "hard_filters": [
+      "no sponsorship",
+      "US citizen only",
+      "active clearance required",
+      "must be onsite outside preferred locations",
+      "internship",
+      "new grad",
+      "associate PM"
+    ],
+    "soft_filters": [
+      "pure infrastructure PM",
+      "security/compliance-heavy PM",
+      "hardware lifecycle PM",
+      "sales-led implementation PM",
+      "non-product program manager"
+    ]
+  },
+
+  "fit_scoring_profile": {
+    "ideal_roles": [
+      "Senior Product Manager, AI Search",
+      "Product Manager, E-commerce Discovery",
+      "Product Manager, Personalization",
+      "Product Manager, Consumer AI",
+      "Product Manager, Search Relevance"
+    ],
+    "strong_match_domains": [
+      "AI search", "search relevance", "e-commerce discovery",
+      "recommendation systems", "personalization", "shopping experience",
+      "consumer product", "catalog data", "product discovery"
+    ],
+    "conditional_match_domains": [
+      "B2B seller tools", "catalog platform", "data products",
+      "growth", "marketplace", "internal AI workflow"
+    ],
+    "weak_match_domains": [
+      "cloud infrastructure", "security", "compliance",
+      "healthcare claims", "ads auction", "hardware lifecycle"
+    ],
+    "primary_proof_points": [
+      "AI-powered search launched across 3 international markets",
+      "Search CTR +20%, 1st-result CTR +45%",
+      "AEO pipeline → AI agent traffic 8x in 12 weeks",
+      "PDP view rate from 30% to 45%, bounce rate -50%",
+      "Recommendation-driven AOV +25%",
+      "Amazon B2B listing automation → -80% listing time, $1.4M savings"
+    ],
+    "positioning_rules": [
+      "Position as AI/search product PM, not ML infrastructure PM.",
+      "Emphasize search relevance, discovery funnel, experimentation, and customer outcomes.",
+      "Use fine-tuning language cautiously — frame as PM-led optimization, not hands-on ML modeling.",
+      "For platform roles, emphasize catalog, seller tools, workflow automation, and structured data.",
+      "Lead with AI/search experience; Kolon is supporting evidence for scale and funnel depth."
+    ]
+  }
+}

@@ -1,0 +1,695 @@
+[
+  {
+    "name": "Disney",
+    "aliases": ["The Walt Disney Company"],
+    "status": "blocked",
+    "target_status": "blocked",
+    "priority": "none",
+    "ats": [],
+    "domains": ["media", "entertainment", "consumer"],
+    "sponsorship": {
+      "status": "does_not_sponsor",
+      "confidence": "high",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "No visa sponsorship"
+    },
+    "note": "Blocked due to no visa sponsorship.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Walmart",
+    "aliases": ["Walmart Global Tech", "Walmart Connect"],
+    "status": "blocked",
+    "target_status": "blocked",
+    "priority": "none",
+    "ats": [],
+    "domains": ["retail", "ecommerce", "marketplace"],
+    "sponsorship": {
+      "status": "does_not_sponsor",
+      "confidence": "high",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "No visa sponsorship"
+    },
+    "note": "Blocked due to no visa sponsorship.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Capital One",
+    "aliases": ["Capital One Financial"],
+    "status": "blocked",
+    "target_status": "blocked",
+    "priority": "none",
+    "ats": [],
+    "domains": ["fintech", "banking", "consumer"],
+    "sponsorship": {
+      "status": "does_not_sponsor",
+      "confidence": "high",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "No visa sponsorship"
+    },
+    "note": "Blocked due to no visa sponsorship.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Redfin",
+    "aliases": [],
+    "status": "blocked",
+    "target_status": "blocked",
+    "priority": "none",
+    "ats": [],
+    "domains": ["real-estate", "search", "consumer"],
+    "sponsorship": {
+      "status": "does_not_sponsor",
+      "confidence": "high",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "No visa sponsorship"
+    },
+    "note": "Blocked due to no visa sponsorship.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Microsoft",
+    "aliases": ["Microsoft AI", "MAI", "Copilot"],
+    "status": "active",
+    "target_status": "primary",
+    "priority": "high",
+    "ats": [
+      {
+        "type": "internal",
+        "slug": null,
+        "enabled": false,
+        "verified": true,
+        "last_checked": null,
+        "url": "https://jobs.careers.microsoft.com"
+      }
+    ],
+    "domains": ["ai", "search", "cloud", "saas", "consumer-ai", "productivity"],
+    "sponsorship": {
+      "status": "sponsors",
+      "confidence": "high",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Primary target. Internal ATS not covered in V1."
+    },
+    "note": "Primary target — MAI Copilot. Uses internal ATS, so monitor manually in V1.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Amazon",
+    "aliases": ["Amazon.com", "AWS"],
+    "status": "active",
+    "target_status": "primary",
+    "priority": "high",
+    "ats": [
+      {
+        "type": "internal",
+        "slug": null,
+        "enabled": false,
+        "verified": true,
+        "last_checked": null,
+        "url": "https://www.amazon.jobs"
+      }
+    ],
+    "domains": ["ecommerce", "cloud", "ai", "marketplace", "search", "seller-tools"],
+    "sponsorship": {
+      "status": "sponsors",
+      "confidence": "high",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Internal ATS not covered in V1."
+    },
+    "note": "Strong fit — search, discovery, B2B seller tools. Uses internal ATS, so monitor manually in V1.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Google",
+    "aliases": ["Alphabet"],
+    "status": "active",
+    "target_status": "primary",
+    "priority": "high",
+    "ats": [
+      {
+        "type": "internal",
+        "slug": null,
+        "enabled": false,
+        "verified": true,
+        "last_checked": null,
+        "url": "https://www.google.com/about/careers/applications/jobs/results"
+      }
+    ],
+    "domains": ["search", "ai", "cloud", "consumer", "ads", "productivity"],
+    "sponsorship": {
+      "status": "sponsors",
+      "confidence": "high",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Internal ATS not covered in V1."
+    },
+    "note": "Strong domain fit — search, AI. Uses internal ATS, so monitor manually in V1.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Meta",
+    "aliases": ["Meta Platforms", "Facebook", "Instagram"],
+    "status": "active",
+    "target_status": "primary",
+    "priority": "high",
+    "ats": [
+      {
+        "type": "internal",
+        "slug": null,
+        "enabled": false,
+        "verified": true,
+        "last_checked": null,
+        "url": "https://www.metacareers.com/jobs"
+      }
+    ],
+    "domains": ["social", "ai", "consumer", "discovery", "ranking", "personalization"],
+    "sponsorship": {
+      "status": "sponsors",
+      "confidence": "high",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Internal ATS not covered in V1."
+    },
+    "note": "AI discovery, ranking, personalization fit. Uses internal ATS, so monitor manually in V1.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "TikTok",
+    "aliases": ["ByteDance", "TikTok Shop"],
+    "status": "active",
+    "target_status": "primary",
+    "priority": "high",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "tiktok",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["consumer", "ai", "discovery", "recommendation", "ecommerce"],
+    "sponsorship": {
+      "status": "sponsors",
+      "confidence": "medium",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": ""
+    },
+    "note": "Strong fit — AI recommendation, discovery, TikTok Shop e-commerce. Verify ATS slug.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Instacart",
+    "aliases": [],
+    "status": "active",
+    "target_status": "primary",
+    "priority": "high",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "instacart",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["marketplace", "grocery", "consumer", "search", "ai", "ads"],
+    "sponsorship": {
+      "status": "unknown",
+      "confidence": "low",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Sponsorship should be confirmed per role."
+    },
+    "note": "Strong fit — e-commerce search, personalization, ad tech. Sponsorship unknown.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "DoorDash",
+    "aliases": [],
+    "status": "active",
+    "target_status": "primary",
+    "priority": "high",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "doordash",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["marketplace", "logistics", "consumer", "search", "growth", "grocery"],
+    "sponsorship": {
+      "status": "unknown",
+      "confidence": "low",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Sponsorship should be confirmed per role."
+    },
+    "note": "Marketplace search, discovery, consumer PM fit. Sponsorship unknown.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Uber",
+    "aliases": ["Uber Eats"],
+    "status": "active",
+    "target_status": "primary",
+    "priority": "high",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "uber",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["marketplace", "consumer", "ai", "search", "growth", "grocery", "delivery"],
+    "sponsorship": {
+      "status": "sponsors",
+      "confidence": "medium",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Confirm per role."
+    },
+    "note": "Uber Eats search/discovery, AI personalization fit. Verify ATS slug.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Airbnb",
+    "aliases": [],
+    "status": "active",
+    "target_status": "primary",
+    "priority": "high",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "airbnb",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["marketplace", "consumer", "search", "discovery", "growth", "travel"],
+    "sponsorship": {
+      "status": "sponsors",
+      "confidence": "medium",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Confirm per role."
+    },
+    "note": "Search, discovery, ranking — strong domain fit. Verify ATS slug.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Pinterest",
+    "aliases": [],
+    "status": "active",
+    "target_status": "primary",
+    "priority": "high",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "pinterest",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["visual-search", "discovery", "consumer", "ecommerce", "ai", "shopping"],
+    "sponsorship": {
+      "status": "sponsors",
+      "confidence": "medium",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Confirm per role."
+    },
+    "note": "Visual search, discovery, shopping — very strong domain fit. Verify ATS slug.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "eBay",
+    "aliases": ["Ebay"],
+    "status": "active",
+    "target_status": "primary",
+    "priority": "high",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "ebay",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["ecommerce", "marketplace", "search", "discovery", "catalog"],
+    "sponsorship": {
+      "status": "sponsors",
+      "confidence": "medium",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Confirm per role."
+    },
+    "note": "E-commerce search, catalog, marketplace — strong fit. Verify ATS slug.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Expedia",
+    "aliases": ["Expedia Group", "Vrbo"],
+    "status": "active",
+    "target_status": "primary",
+    "priority": "medium",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "expedia",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["travel", "consumer", "search", "marketplace", "discovery"],
+    "sponsorship": {
+      "status": "sponsors",
+      "confidence": "medium",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Confirm per role."
+    },
+    "note": "Search, discovery, consumer product fit. Travel domain is adjacent. Verify ATS slug.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Adobe",
+    "aliases": ["Adobe Systems"],
+    "status": "active",
+    "target_status": "primary",
+    "priority": "medium",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "adobe",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["design", "creative", "saas", "ai", "creator-tools"],
+    "sponsorship": {
+      "status": "sponsors",
+      "confidence": "medium",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Confirm per role."
+    },
+    "note": "AI Firefly, Sensei — AI PM fit. Creative domain is adjacent. Verify ATS slug.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Zillow",
+    "aliases": ["Zillow Group"],
+    "status": "active",
+    "target_status": "primary",
+    "priority": "medium",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "zillow",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["real-estate", "search", "consumer", "ai", "marketplace"],
+    "sponsorship": {
+      "status": "unknown",
+      "confidence": "low",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Sponsorship should be confirmed per role."
+    },
+    "note": "Search, discovery, AI — domain is adjacent. Sponsorship unknown. Verify ATS slug.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Cisco",
+    "aliases": [],
+    "status": "active",
+    "target_status": "primary",
+    "priority": "medium",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "cisco",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["enterprise", "saas", "ai", "networking"],
+    "sponsorship": {
+      "status": "sponsors",
+      "confidence": "medium",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Confirm per role."
+    },
+    "note": "AI/ML PM roles possible. Enterprise is conditional fit. Verify ATS slug.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "CVS",
+    "aliases": ["CVS Health", "Aetna"],
+    "status": "active",
+    "target_status": "primary",
+    "priority": "medium",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "cvshealth",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["healthcare", "ecommerce", "consumer", "ai", "digital-health"],
+    "sponsorship": {
+      "status": "unknown",
+      "confidence": "low",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Sponsorship should be confirmed per role."
+    },
+    "note": "E-commerce/digital search possible. Healthcare is conditional fit. Sponsorship unknown. Verify ATS slug.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Hims",
+    "aliases": ["Hims & Hers", "Hims & Hers Health"],
+    "status": "active",
+    "target_status": "primary",
+    "priority": "medium",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "hims",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["healthcare", "consumer", "ecommerce", "growth", "digital-health"],
+    "sponsorship": {
+      "status": "unknown",
+      "confidence": "low",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Sponsorship should be confirmed per role."
+    },
+    "note": "Consumer e-commerce, growth PM fit. Healthcare is adjacent. Sponsorship unknown. Verify ATS slug.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Anthropic",
+    "aliases": [],
+    "status": "active",
+    "target_status": "watchlist",
+    "priority": "high",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "anthropic",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["ai", "safety", "ml", "llm", "developer-tools"],
+    "sponsorship": {
+      "status": "sponsors",
+      "confidence": "medium",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Confirm per role."
+    },
+    "note": "Strong AI PM fit. Monitor but not primary target. Verify ATS slug.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "OpenAI",
+    "aliases": [],
+    "status": "active",
+    "target_status": "watchlist",
+    "priority": "high",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "openai",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["ai", "ml", "llm", "consumer", "developer-tools"],
+    "sponsorship": {
+      "status": "sponsors",
+      "confidence": "medium",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Confirm per role."
+    },
+    "note": "Strong AI PM fit. Monitor but not primary target. Verify ATS slug.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Shopify",
+    "aliases": [],
+    "status": "active",
+    "target_status": "watchlist",
+    "priority": "medium",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "shopify",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["ecommerce", "platform", "saas", "merchant-tools", "ai"],
+    "sponsorship": {
+      "status": "unknown",
+      "confidence": "low",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Sponsorship should be confirmed per role."
+    },
+    "note": "E-commerce platform — conditional fit. Sponsorship unknown. Verify ATS slug.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Salesforce",
+    "aliases": ["Salesforce.com"],
+    "status": "active",
+    "target_status": "watchlist",
+    "priority": "low",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "salesforce",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["crm", "enterprise", "saas", "ai"],
+    "sponsorship": {
+      "status": "sponsors",
+      "confidence": "medium",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Confirm per role."
+    },
+    "note": "Einstein AI PM possible but enterprise CRM is weaker fit. Verify ATS slug.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Lyft",
+    "aliases": [],
+    "status": "active",
+    "target_status": "watchlist",
+    "priority": "low",
+    "ats": [
+      {
+        "type": "greenhouse",
+        "slug": "lyft",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["marketplace", "consumer", "logistics", "mobility"],
+    "sponsorship": {
+      "status": "unknown",
+      "confidence": "low",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Sponsorship should be confirmed per role."
+    },
+    "note": "Conditional fit. Lower priority than Uber/DoorDash. Sponsorship unknown. Verify ATS slug.",
+    "date_added": "2026-05-01"
+  },
+  {
+    "name": "Intercom",
+    "aliases": [],
+    "status": "active",
+    "target_status": "watchlist",
+    "priority": "low",
+    "ats": [
+      {
+        "type": "ashby",
+        "slug": "intercom",
+        "enabled": true,
+        "verified": false,
+        "last_checked": null,
+        "url": null
+      }
+    ],
+    "domains": ["customer-success", "ai", "saas", "support-automation"],
+    "sponsorship": {
+      "status": "unknown",
+      "confidence": "low",
+      "source": "user_input",
+      "last_verified": "2026-05-01",
+      "note": "Sponsorship should be confirmed per role."
+    },
+    "note": "AI agent / Fin PM possible. Low priority. Verify ATS slug.",
+    "date_added": "2026-05-01"
+  }
+]

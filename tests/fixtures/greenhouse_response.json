@@ -1,0 +1,34 @@
+{
+  "jobs": [
+    {
+      "id": 1234567,
+      "title": "Senior Product Manager, Search",
+      "location": {
+        "name": "San Francisco, CA"
+      },
+      "absolute_url": "https://boards.greenhouse.io/testco/jobs/1234567",
+      "updated_at": "2026-04-29T10:00:00Z",
+      "content": "<p>We are looking for a Senior PM to lead our Search &amp; Discovery team.</p><p>You will own the roadmap for our core search product, working with ML engineers to improve relevance and personalization. We sponsor H-1B visas for qualified candidates.</p><ul><li>5+ years of PM experience</li><li>Experience with search or recommendation systems</li><li>Strong data analysis skills</li></ul>"
+    },
+    {
+      "id": 1234568,
+      "title": "Product Marketing Manager",
+      "location": {
+        "name": "New York, NY"
+      },
+      "absolute_url": "https://boards.greenhouse.io/testco/jobs/1234568",
+      "updated_at": "2026-04-28T10:00:00Z",
+      "content": "<p>Product marketing role focused on go-to-market strategy.</p>"
+    },
+    {
+      "id": 1234569,
+      "title": "Senior Product Manager, Platform",
+      "location": {
+        "name": "Austin, TX"
+      },
+      "absolute_url": "https://boards.greenhouse.io/testco/jobs/1234569",
+      "updated_at": "2026-04-27T10:00:00Z",
+      "content": "<p>Platform PM role. Must be authorized to work in the United States.</p>"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+name: Daily Job Scrape
+
+on:
+  schedule:
+    - cron: '0 14 * * *'   # 6 AM PST (UTC-8) / 7 AM PDT (UTC-7)
+  workflow_dispatch:         # Manual trigger from Actions UI
+
+concurrency:
+  group: daily-scrape
+  cancel-in-progress: false  # Let the running job finish, queue next
+
+permissions:
+  contents: write            # Needed to commit docs/jobs.json back to repo
+
+jobs:
+  scrape-and-score:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run unit tests
+        run: pytest tests/ -v --tb=short -x
+        # -x: stop on first failure — don't spend Claude API budget if filters are broken
+
+      - name: Run pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python main.py
+
+      - name: Verify output
+        run: |
+          test -f docs/jobs.json || (echo "ERROR: docs/jobs.json was not generated" && exit 1)
+          python -c "
+          import json
+          jobs = json.load(open('docs/jobs.json'))
+          print(f'Published {len(jobs)} jobs to docs/jobs.json')
+          assert isinstance(jobs, list), 'jobs.json must be a list'
+          "
+
+      - name: Commit dashboard output
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/jobs.json data/run_log.json
+          git diff --staged --quiet || \
+            git commit -m "chore: daily job update $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DailyApply — PM Job Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="header">
+  <div class="header-inner">
+    <a class="logo" href="#">Daily<span>Apply</span></a>
+    <span class="header-stats" id="lastUpdated">Loading…</span>
+  </div>
+</header>
+
+<!-- ── Filter bar ── -->
+<div class="filters">
+  <div class="filters-inner">
+    <input class="search-input" id="search" type="search" placeholder="Search title or company…" />
+
+    <select id="recommendation">
+      <option value="all">All Recs</option>
+      <option value="Apply">Apply</option>
+      <option value="Maybe">Maybe</option>
+      <option value="Skip">Skip</option>
+    </select>
+
+    <select id="sponsorship">
+      <option value="all">All Sponsorship</option>
+      <option value="does_sponsor">Sponsors Visa</option>
+      <option value="unknown">Unknown</option>
+      <option value="does_not_sponsor">No Sponsorship</option>
+    </select>
+
+    <select id="locationFit">
+      <option value="all">All Locations</option>
+      <option value="exact">Exact Match</option>
+      <option value="remote">Remote</option>
+      <option value="mismatch">Mismatch</option>
+    </select>
+
+    <select id="priority">
+      <option value="all">All Priority</option>
+      <option value="high">High</option>
+      <option value="medium">Medium</option>
+      <option value="low">Low</option>
+    </select>
+
+    <select id="sortBy">
+      <option value="score">Sort: Fit Score ↓</option>
+      <option value="newest">Sort: Newest</option>
+      <option value="recommendation">Sort: Recommendation</option>
+      <option value="company">Sort: Company A–Z</option>
+    </select>
+
+    <div class="score-range-wrap">
+      <label for="scoreRange">Min</label>
+      <input type="range" id="scoreRange" min="0" max="100" step="5" value="0" />
+      <span id="scoreVal">0</span>
+    </div>
+
+    <div class="days-group">
+      <button class="days-btn active" data-days="all">All</button>
+      <button class="days-btn" data-days="1">1d</button>
+      <button class="days-btn" data-days="3">3d</button>
+      <button class="days-btn" data-days="7">7d</button>
+    </div>
+
+    <button class="toggle-btn" id="hideSkipped">Hide Skipped</button>
+    <button class="toggle-btn" id="showLowScore">Show &lt;70 Score</button>
+  </div>
+</div>
+
+<!-- ── Main ── -->
+<main class="main">
+  <div class="results-header">
+    <span class="results-count" id="resultsCount">Loading…</span>
+  </div>
+  <div class="job-list" id="jobList">
+    <div class="empty"><h3>Loading jobs…</h3></div>
+  </div>
+  <div class="last-updated" id="lastUpdatedFooter"></div>
+
+  <!-- ── Manual Monitoring ── -->
+  <section class="manual-section">
+    <div class="manual-header">
+      <h3>수동 모니터링</h3>
+      <p class="manual-sub">자체 ATS 사용 — 직접 확인 필요</p>
+    </div>
+    <div class="manual-grid" id="manualGrid"></div>
+  </section>
+</main>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

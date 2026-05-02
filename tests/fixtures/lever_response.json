@@ -1,0 +1,24 @@
+[
+  {
+    "id": "abc-123-def-456",
+    "text": "Senior Product Manager, Growth",
+    "createdAt": 1745913600000,
+    "hostedUrl": "https://jobs.lever.co/testco/abc-123-def-456",
+    "categories": {
+      "location": "Seattle, WA",
+      "commitment": "Full-time"
+    },
+    "description": "<p>We are hiring a Senior PM to lead our Growth team. We help companies grow through data-driven experimentation.</p><p>Requirements:<br/>- 5+ years PM experience<br/>- Strong A/B testing background<br/>- Experience with growth loops</p>"
+  },
+  {
+    "id": "def-456-ghi-789",
+    "text": "Technical Program Manager",
+    "createdAt": 1745827200000,
+    "hostedUrl": "https://jobs.lever.co/testco/def-456-ghi-789",
+    "categories": {
+      "location": "Remote",
+      "commitment": "Full-time"
+    },
+    "description": "<p>TPM role for infrastructure team.</p>"
+  }
+]
