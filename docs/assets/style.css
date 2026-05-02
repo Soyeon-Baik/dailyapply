@@ -468,7 +468,7 @@ select:focus { border-color: var(--blue); }
   transition: opacity 0.2s;
 }
 
-.manual-card.checked { opacity: 0.45; }
+.manual-card.checked { opacity: 0.65; }
 .manual-card-name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
 .manual-card-domains { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
 .manual-card-last { font-size: 11px; color: var(--text-secondary); margin-bottom: 10px; }
@@ -489,6 +489,7 @@ select:focus { border-color: var(--blue); }
   background: var(--bg-secondary);
   color: var(--text-muted);
   border-color: var(--border);
+  cursor: pointer;
 }
 
 .career-btn {
