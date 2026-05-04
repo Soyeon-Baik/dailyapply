@@ -348,53 +348,6 @@
     "status": "new"
   },
   {
-    "id": "ab_notion_11111",
-    "platform": "ashby",
-    "company": "Notion",
-    "company_priority": "high",
-    "title": "Senior Product Manager, Notion AI",
-    "location": "New York, NY",
-    "remote": false,
-    "url": "https://jobs.ashbyhq.com/notion/11111",
-    "posted_at": "2026-04-27T09:00:00+00:00",
-    "days_old": 4.0,
-    "scraped_at": "2026-05-01T06:00:00+00:00",
-    "fit_score": 67,
-    "score_breakdown": {
-      "requirements_match": 17,
-      "domain_alignment": 19,
-      "pm_archetype_fit": 13,
-      "evidence_strength": 10,
-      "seniority_fit": 6,
-      "nice_to_have_bonus": 2
-    },
-    "score_rationale": "Notion AI is building LLM-powered writing and knowledge management features. Your AI/ML product experience is directionally right, but consumer productivity SaaS is a different motion than ecommerce search. NY location is a match. Score reflects domain gap rather than skill gap.",
-    "recommendation": "Maybe",
-    "recommendation_reason": "Good AI fit and NYC location match, but consumer SaaS / productivity domain is new — tailor your application to highlight user behavior and growth metrics.",
-    "sponsorship_status": "unknown",
-    "location_fit": "exact",
-    "seniority_level": "target",
-    "hard_filter": false,
-    "hard_filter_reason": null,
-    "resume_keywords": [
-      "LLM integration",
-      "knowledge management",
-      "consumer SaaS",
-      "PLG",
-      "user retention",
-      "AI writing"
-    ],
-    "suggested_summary": "Senior PM with 7+ years shipping AI/ML-powered products at scale. Experience using quantitative signals and experimentation to drive discovery and engagement — skills that transfer directly to AI-powered knowledge tools.",
-    "top_bullets": [
-      "Led AI-powered search and discovery platform serving 10M+ monthly users",
-      "Drove AEO strategy improving organic discovery by 35%",
-      "Built personalization engine increasing conversion rate by 18%"
-    ],
-    "gap_handling": "Consumer SaaS / productivity domain is less familiar than ecommerce — frame your experience around user intent, discovery, and engagement patterns, which are common threads.",
-    "run_id": "2026-05-01T06:00:00+00:00",
-    "status": "new"
-  },
-  {
     "id": "greenhouse:anthropic:4985920008",
     "platform": "greenhouse",
     "company": "anthropic",
