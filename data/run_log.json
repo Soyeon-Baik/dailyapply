@@ -159,5 +159,12 @@
     "pm_location_matches": 11,
     "hard_filtered": 0,
     "scored": 11
+  },
+  {
+    "run_at": "2026-05-23T14:59:14.779285+00:00",
+    "raw_jobs": 253,
+    "pm_location_matches": 12,
+    "hard_filtered": 0,
+    "scored": 12
   }
 ]
