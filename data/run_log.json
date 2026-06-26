@@ -1,12 +1,5 @@
 [
   {
-    "run_at": "2026-05-27T17:18:01.677268+00:00",
-    "raw_jobs": 253,
-    "pm_location_matches": 14,
-    "hard_filtered": 0,
-    "scored": 0
-  },
-  {
     "run_at": "2026-05-28T17:33:42.591100+00:00",
     "raw_jobs": 249,
     "pm_location_matches": 14,
@@ -206,6 +199,13 @@
     "run_at": "2026-06-25T16:21:14.319178+00:00",
     "raw_jobs": 290,
     "pm_location_matches": 29,
+    "hard_filtered": 0,
+    "scored": 0
+  },
+  {
+    "run_at": "2026-06-26T16:13:29.887350+00:00",
+    "raw_jobs": 296,
+    "pm_location_matches": 31,
     "hard_filtered": 0,
     "scored": 0
   }
